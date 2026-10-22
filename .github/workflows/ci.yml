@@ -20,7 +20,10 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install ffmpeg
-        timeout-minutes: 10
+        # Best effort: the runners' apt mirror is sometimes very slow. Without ffmpeg the
+        # video tests skip; other jobs still cover them
+        continue-on-error: true
+        timeout-minutes: 8
         run: |
           if [ "$RUNNER_OS" = macOS ]; then brew install ffmpeg; else
             sudo apt-get -o Acquire::Retries=3 update
