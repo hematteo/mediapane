@@ -1,0 +1,10 @@
+{
+  "name": "mediapane",
+  "version": "0.1.0",
+  "description": "Show the images, plots and videos Claude makes or reads in a mediapane viewer beside your terminal, and teach Claude to show media and look at images without spending tokens on them. Needs the mediapane CLI with its claude plugin: uv tool install mediapane --with mediapane-claude",
+  "author": { "name": "hematteo" },
+  "homepage": "https://github.com/hematteo/mediapane",
+  "repository": "https://github.com/hematteo/mediapane",
+  "license": "MIT",
+  "keywords": ["images", "plots", "video", "terminal", "viewer"]
+}

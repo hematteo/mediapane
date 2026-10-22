@@ -1,0 +1,61 @@
+[project]
+name = "mediapane"
+dynamic = ["version"]
+description = "A media sidecar for your terminal: keep one pane open and push images, GIFs and videos to it from anywhere."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "hematteo" }]
+keywords = ["terminal", "kitty", "ghostty", "images", "video", "tmux", "ssh", "matplotlib"]
+classifiers = [
+    "Environment :: Console",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Graphics :: Viewers",
+    "Topic :: Terminals",
+]
+dependencies = ["pillow>=10.0"]
+
+[project.urls]
+Homepage = "https://github.com/hematteo/mediapane"
+Issues = "https://github.com/hematteo/mediapane/issues"
+
+[project.optional-dependencies]
+array = ["numpy>=1.24"]
+matplotlib = ["matplotlib>=3.7", "numpy>=1.24"]
+
+[project.scripts]
+mediapane = "mediapane.cli:main"
+mp = "mediapane.cli:main"
+
+[project.entry-points."matplotlib.backend"]
+mediapane = "mediapane.mpl"
+
+[dependency-groups]
+dev = ["pytest>=8.0", "ruff>=0.6", "numpy>=1.24", "matplotlib>=3.7"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/plugins", "/.github", "/uv.lock"]  # plugins ship as their own packages
+
+[tool.hatch.version]
+path = "src/mediapane/__init__.py"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,43 @@
+[project]
+name = "mediapane-relay"
+dynamic = ["version"]
+description = "mediapane plugin: forward pushes from cluster compute nodes to the pane, via a spool folder on a shared filesystem."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "hematteo" }]
+keywords = ["terminal", "images", "hpc", "slurm", "cluster", "mediapane"]
+dependencies = ["mediapane>=0.2"]
+
+[project.urls]
+Homepage = "https://github.com/hematteo/mediapane"
+
+[project.entry-points."mediapane.plugins"]
+relay = "mediapane_relay"
+
+[dependency-groups]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[tool.uv.sources]
+mediapane = { path = "../..", editable = true }
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/uv.lock"]
+
+[tool.hatch.version]
+path = "src/mediapane_relay/__init__.py"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

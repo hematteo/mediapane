@@ -1,0 +1,14 @@
+{
+  "name": "mediapane",
+  "description": "mediapane: a media sidecar for your terminal",
+  "owner": {
+    "name": "hematteo"
+  },
+  "plugins": [
+    {
+      "name": "mediapane",
+      "source": "./plugins/mediapane-claude/claude-code",
+      "description": "Show the media Claude makes or reads in your mediapane viewer, at no token cost"
+    }
+  ]
+}

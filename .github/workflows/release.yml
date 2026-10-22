@@ -1,0 +1,59 @@
+name: Release
+
+# One tag per package:  v0.2.0 -> mediapane,  mediapane-claude-v0.1.0 -> plugins/mediapane-claude
+# Publishing uses PyPI trusted publishing: no API token is stored anywhere. Each package needs a
+# trusted publisher on PyPI pointing at this repository, this workflow and the `pypi` environment.
+
+on:
+  push:
+    tags: ["v*", "mediapane-claude-v*", "mediapane-diff-v*", "mediapane-relay-v*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Package for this tag
+        id: pkg
+        run: |
+          tag="$GITHUB_REF_NAME"
+          case "$tag" in
+            v*) dir=. version="${tag#v}" ;;
+            mediapane-*-v*) dir="plugins/${tag%-v*}" version="${tag##*-v}" ;;
+            *) echo "unexpected tag $tag"; exit 1 ;;
+          esac
+          echo "dir=$dir" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Install ffmpeg (video tests)
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Test
+        working-directory: ${{ steps.pkg.outputs.dir }}
+        run: uv sync && uv run pytest -q
+      - name: Build
+        working-directory: ${{ steps.pkg.outputs.dir }}
+        run: uv build --out-dir "$GITHUB_WORKSPACE/dist"
+      - name: The tag matches the package version
+        run: |
+          ls dist
+          ls dist | grep -q -- "-${{ steps.pkg.outputs.version }}[-.]" \
+            || { echo "tag $GITHUB_REF_NAME doesn't match the version in the package"; exit 1; }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write  # trusted publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

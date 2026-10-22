@@ -1,0 +1,46 @@
+[project]
+name = "mediapane-claude"
+dynamic = ["version"]
+description = "mediapane plugin: show images Claude Code writes or reads, and an MCP tool so any agent can show media."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [{ name = "hematteo" }]
+keywords = ["mediapane", "claude", "claude-code", "mcp", "terminal", "images"]
+dependencies = ["mediapane>=0.2"]
+
+[project.urls]
+Homepage = "https://github.com/hematteo/mediapane"
+
+[project.entry-points."mediapane.plugins"]
+claude = "mediapane_claude"
+
+[dependency-groups]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[tool.uv.sources]
+mediapane = { path = "../..", editable = true }
+
+[tool.hatch.build.targets.wheel.force-include]
+# The skill lives once, in the Claude Code plugin bundle; the wheel carries it for `install`
+"claude-code/skills/mediapane/SKILL.md" = "mediapane_claude/SKILL.md"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/uv.lock"]
+
+[tool.hatch.version]
+path = "src/mediapane_claude/__init__.py"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

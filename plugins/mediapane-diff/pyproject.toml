@@ -1,0 +1,43 @@
+[project]
+name = "mediapane-diff"
+dynamic = ["version"]
+description = "mediapane plugin: compare two images side by side, as a flicker and as a difference heatmap; works as a git difftool."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "hematteo" }]
+keywords = ["terminal", "images", "diff", "git", "difftool", "mediapane"]
+dependencies = ["mediapane>=0.2"]
+
+[project.urls]
+Homepage = "https://github.com/hematteo/mediapane"
+
+[project.entry-points."mediapane.plugins"]
+diff = "mediapane_diff"
+
+[dependency-groups]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[tool.uv.sources]
+mediapane = { path = "../..", editable = true }
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/uv.lock"]
+
+[tool.hatch.version]
+path = "src/mediapane_diff/__init__.py"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
