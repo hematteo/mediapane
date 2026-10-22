@@ -7,20 +7,29 @@ name: Release
 on:
   push:
     tags: ["v*", "mediapane-claude-v*", "mediapane-diff-v*", "mediapane-relay-v*"]
+  workflow_dispatch:  # re-release an existing tag (e.g. after fixing the PyPI publisher)
+    inputs:
+      tag:
+        description: "Tag to release, e.g. v0.2.0 or mediapane-claude-v0.1.0"
+        required: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
       - uses: astral-sh/setup-uv@v6
         with:
           python-version: "3.12"
       - name: Package for this tag
         id: pkg
         run: |
-          tag="$GITHUB_REF_NAME"
+          tag="$TAG"
           case "$tag" in
             v*) dir=. version="${tag#v}" ;;
             mediapane-*-v*) dir="plugins/${tag%-v*}" version="${tag##*-v}" ;;
@@ -46,7 +55,7 @@ jobs:
         run: |
           ls dist
           ls dist | grep -q -- "-${{ steps.pkg.outputs.version }}[-.]" \
-            || { echo "tag $GITHUB_REF_NAME doesn't match the version in the package"; exit 1; }
+            || { echo "tag $TAG doesn't match the version in the package"; exit 1; }
       - uses: actions/upload-artifact@v4
         with:
           name: dist
