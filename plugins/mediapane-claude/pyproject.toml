@@ -4,13 +4,27 @@ dynamic = ["version"]
 description = "mediapane plugin: show images Claude Code writes or reads, and an MCP tool so any agent can show media."
 readme = "README.md"
 license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
 authors = [{ name = "hematteo" }]
 keywords = ["mediapane", "claude", "claude-code", "mcp", "terminal", "images"]
+classifiers = [
+    "Environment :: Console",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development",
+    "Topic :: Terminals",
+]
 dependencies = ["mediapane>=0.2"]
 
 [project.urls]
 Homepage = "https://github.com/hematteo/mediapane"
+Issues = "https://github.com/hematteo/mediapane/issues"
 
 [project.entry-points."mediapane.plugins"]
 claude = "mediapane_claude"

@@ -1,6 +1,6 @@
 # mediapane-relay
 
-A [mediapane](../../README.md) plugin for clusters whose batch jobs can't reach your pane.
+A [mediapane](https://github.com/hematteo/mediapane) plugin for clusters whose batch jobs can't reach your pane.
 
 Compute nodes usually can't see the login node's `/tmp`, so a `mediapane ssh` socket doesn't help
 a job running under Slurm. Instead, give the job a spool folder on a filesystem both can see:

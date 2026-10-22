@@ -1,6 +1,6 @@
 # mediapane-diff
 
-A [mediapane](../../README.md) plugin: compare two images in the pane.
+A [mediapane](https://github.com/hematteo/mediapane) plugin: compare two images in the pane.
 
 ```sh
 mediapane diff before.png after.png            # side by side, flicker, difference heatmap

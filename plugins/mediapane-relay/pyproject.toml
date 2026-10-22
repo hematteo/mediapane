@@ -8,10 +8,23 @@ license-files = ["LICENSE"]
 requires-python = ">=3.10"
 authors = [{ name = "hematteo" }]
 keywords = ["terminal", "images", "hpc", "slurm", "cluster", "mediapane"]
+classifiers = [
+    "Environment :: Console",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: System :: Distributed Computing",
+    "Topic :: Terminals",
+]
 dependencies = ["mediapane>=0.2"]
 
 [project.urls]
 Homepage = "https://github.com/hematteo/mediapane"
+Issues = "https://github.com/hematteo/mediapane/issues"
 
 [project.entry-points."mediapane.plugins"]
 relay = "mediapane_relay"
